@@ -3,14 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.mtea</groupId>
-	<artifactId>macrotea-bristleback-demo-from-archetype</artifactId>
+	<artifactId>Chatlet</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>Bristleback Webapp archetype</name>
-	<url>http://maven.apache.org</url>
+	<name>Chatlet</name>
+	<url>http://www.macrotea.cn</url>
 
 	<properties>
-		<!--Versions 3.1.1.RELEASE or higher are supported -->
 		<org.springframework.version>3.1.1.RELEASE</org.springframework.version>
 	</properties>
 
@@ -31,6 +30,12 @@
 			<groupId>pl.bristleback</groupId>
 			<artifactId>websocket-engine-tomcat</artifactId>
 			<version>0.3.5</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>tomcat-coyote</artifactId>
+					<groupId>org.apache.tomcat</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>pl.bristleback</groupId>
@@ -80,7 +85,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>Bristleback web application</finalName>
+		<finalName>chatlet</finalName>
 		<pluginManagement>
 			<plugins>
 				<plugin>

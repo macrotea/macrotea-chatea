@@ -1,13 +1,17 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
+
+<%
+  String ctxPath = request.getContextPath();
+  String wsPath = "ws://" + request.getServerName() + ":" + request.getServerPort() + ctxPath;
+%>
+
 <html>
 <head>
-  <script type="text/javascript" src="js/bristleback-0.3.5.js"><!--//--></script>
+  <script type="text/javascript" src="<%=ctxPath%>/js/bristleback-0.3.5.js"><!--//--></script>
 
-	<!-- 
-	设置项目上下文为： bbdemo
-	 -->
   <script type="text/javascript">
     var config = {
-      serverUrl: "ws://localhost:8080/bbdemo/chat.ws",
+      serverUrl: "<%=wsPath%>/chat.ws",
       onOpen: function(event) {
         document.getElementById('status').innerHTML = "The WebSocket Connection Is Open.";
       },

@@ -20,5 +20,5 @@
 		<url-pattern>*.ws</url-pattern>
 	</servlet-mapping>
 
-	<welcome-file-list>index.html</welcome-file-list>
+	<welcome-file-list>index.jsp</welcome-file-list>
 </web-app>
