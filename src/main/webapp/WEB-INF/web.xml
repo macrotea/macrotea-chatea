@@ -16,7 +16,8 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>springServlet</servlet-name>
-		<url-pattern>/websocket/*</url-pattern>
+		<url-pattern>*.do</url-pattern>
+		<url-pattern>*.ws</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>index.html</welcome-file-list>

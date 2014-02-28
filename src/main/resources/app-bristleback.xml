@@ -20,7 +20,6 @@
 		class="pl.bristleback.server.bristle.conf.resolver.init.PropertiesFileConfigResolver">
 		<property name="configurationPath" value="bristleback.properties" />
 	</bean>
-
+     
 	<bb:servlet configurationResolver="bristlebackConfigResolver"/>
-
 </beans>
