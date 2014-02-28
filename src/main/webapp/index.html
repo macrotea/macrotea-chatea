@@ -2,9 +2,12 @@
 <head>
   <script type="text/javascript" src="js/bristleback-0.3.5.js"><!--//--></script>
 
+	<!-- 
+	设置项目上下文为： bbdemo
+	 -->
   <script type="text/javascript">
     var config = {
-      serverUrl: "ws://localhost:8080/websocket",
+      serverUrl: "ws://localhost:8080/bbdemo/websocket",
       onOpen: function(event) {
         document.getElementById('status').innerHTML = "The WebSocket Connection Is Open.";
       },
