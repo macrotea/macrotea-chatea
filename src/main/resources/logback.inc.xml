@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- See http://logback.qos.ch/manual/index.html for more information -->
+<!--
+作者:Macrotea
+日期:2011-8-29
+说明:v2
+配置备份参考:
+	<pattern>%n[%level] - %date - %logger.%M%n ${tip} %msg%n</pattern>
+	<timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
+	<timestamp key="byDay" datePattern="yyyyMMdd"/>
+	<file>${logback.logs.path}${logback.project.name}\\WEB-INF\\logs\\${logback.logs.module.name}\\log_${byDay}.log</file>
+	<property name="tip" value="信息:" />
+	<file>${user.dir}/logs/jtheque.log</file>
+	
+	1.[%F:%line]				UserAction.java:275
+	2.debug="true" 				是否启用输出Logback加载配置的过程信息
+	3.scan="true" 				是否启用扫描配置文件.默认为每1分钟自动扫描配置文件.
+	4.scanPeriod="30 seconds" 	设置每30秒自动扫描配置文件.若没有指定时间单位,则以milliseconds为标准.
+								(时间单位:milliseconds, seconds, minutes, hours).
+	5.<root level="OFF">		关闭	
+	6.${HOSTNAME}				主机名引用(应用于<pattern>标签中)
+	7.%contextName				上下文名称引用(应用于<pattern>标签中)
+	
+	8.设置Logger对Appender的引用:
+	<logger name="com.mtea" level="debug">
+		<appender-ref ref="consoleOutputAppender" />
+		<appender-ref ref="localLogFileAppender" />
+	</logger>
+	
+	9.Logger间日志级别继承关系:
+	ROOT
+	  ->Logger1
+	  ->Logger1
+	  
+  	10.获得根Logger:
+	Logger rootLogger = LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
+	
+	11.输出Logge上下文状态:
+	LoggerContext loggerCtx = (LoggerContext) LoggerFactory.getILoggerFactory();
+	StatusPrinter.print(loggerCtx);
+	
+	12.即使root的日志级别设置为off,但是如下的Logger设置将会覆盖off.
+	<logger name="com.mtea" level="debug"/>
+	
+	13.配置产看logback内部状态Servlet:
+	<servlet>
+		<servlet-name>ViewStatusMessages</servlet-name>
+		<servlet-class>ch.qos.logback.classic.ViewStatusMessagesServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ViewStatusMessages</servlet-name>
+		<url-pattern>/lockbackstatus</url-pattern>
+	</servlet-mapping>
+	<display-name></display-name>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	
+	14.引入properties文件,使用${USER_HOME}的方式访问key的值
+	<property resource="resource1.properties" />
+
+	15.引入子配置文件:
+	方式1:(具体文件路径)
+	<include file="src/main/java/chapters/configuration/includedConfig.xml" />
+	方式2:(类路径下)
+	<include resource="includedConfig.xml" />
+	子配置文件格式:
+	<included>
+		....
+	</included>
+	
+	16.如下配置,"/"将导致日志文件保存在项目所在的磁盘根路径下:
+	<fileNamePattern>/logs/log_%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+	
+	17.如下值需要System.setProperty("logback.log.path", "your path")设置后才能获得:
+	${logback.log.path}
+	
+	18.本地日志文件配置:
+	<appender name="LocalLogFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logs/log_%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>5MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder charset="UTF-8">
+			<pattern>%n%-5level - [%date] - %c.%M\(%c{0}.java:%line\)%n ${tip} %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+-->
+<!--性能图像分析-->
+<!-- Possible GraphTypes are Mean, Min, Max, StdDev, Count and TPS -->
+<!--        <param name="GraphType" value="Mean"/>-->
+<!--	
+	<appender name="ProjectPerfGraphFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${logback.log.path}/perfGraph_%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>5MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder charset="UTF-8">
+			<pattern>%m%n</pattern>
+		</encoder>
+	</appender>
+	
+    <appender name="GraphExecutionTimes" class="com.mtea.common.perf4j.GraphingStatisticsAppender">
+        <param name="GraphType" value="Mean"/>
+        <param name="TagNamesToGraph" value="firstBlock,secondBlock"/>
+        <appender-ref ref="ProjectPerfGraphFileAppender"/>
+    </appender>
+    
+    <appender name="GraphExecutionTPS" class="com.mtea.common.perf4j.GraphingStatisticsAppender">
+        <param name="GraphType" value="TPS"/>
+        <param name="TagNamesToGraph" value="firstBlock,secondBlock"/>
+        <appender-ref ref="ProjectPerfGraphFileAppender"/>
+    </appender>
+    
+    <appender name="Slf4JBridgingPerf4jAppenderImpl" class="com.mtea.common.perf4j.AsyncCoalescingStatisticsAppender">
+        <param name="TimeSlice" value="1000" />
+        <appender-ref ref="ProjectPerfFileAppender"/>
+        <appender-ref ref="GraphExecutionTimes"/>
+        <appender-ref ref="GraphExecutionTPS"/>
+    </appender>
+-->	
+
+
+<included>
+
+	
+	
+
+	<!-- 
+		使用方法:
+		
+		1. logger.debug("The entry is {}", "macrotea"); 
+		
+		2.
+		Object[] paramArray = {newVal, below, above};
+		ogger.debug("Value {} was inserted between {} and {}.", paramArray);
+	
+	-->
+	<!-- 
+	/*
+	 * 定义属性
+	 ********************************************************/-->
+	 
+	<contextName>[ Macrotea Project Logging ]</contextName>
+	
+	<property name="tip" value="信息：" />
+	
+	<!-- 
+	/*
+	 * 定义Appender
+	 ********************************************************/-->
+	 
+	<!--控制台输出-->
+	<appender name="ConsoleOutputAppender" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder charset="UTF-8">
+			<pattern>%n%-5level - [%d{yyyy-MM-dd HH:mm:ss}] - %c.%M\(%c{0}.java:%line\)%n ${tip} %msg%n</pattern>
+		</encoder>
+		<!-- 若设置System.err,则日志信息将以红色字体打印  -->
+		<target>System.out</target>
+	</appender>
+
+	<!--项目日志文件-->
+	<appender name="ProjectLogFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logs/log_%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>5MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder charset="UTF-8">
+			<pattern>%n%-5level - [%d{yyyy-MM-dd HH:mm:ss}] - %c.%M\(%c{0}.java:%line\)%n ${tip} %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+</included>
