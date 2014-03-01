@@ -1,4 +1,4 @@
-package com.mtea.chatlet.exception;
+package com.mtea.chatea.exception;
 
 /**
  * 聊天用户已存在异常

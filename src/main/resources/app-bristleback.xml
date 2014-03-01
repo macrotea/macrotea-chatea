@@ -11,14 +11,15 @@
          	http://www.bristleback.pl/schema/bristleback
          	http://www.bristleback.pl/schema/bristleback/bristleback.xsd">
 
-	<context:component-scan base-package="com.mtea.chatlet" />
+	<context:component-scan base-package="com.mtea.chatea" />
 
 	<bb:serverMessages />
-
-	<bean id="bristlebackConfigResolver"
-		class="pl.bristleback.server.bristle.conf.resolver.init.PropertiesFileConfigResolver">
-		<property name="configurationPath" value="bristleback.properties" />
+	
+	<bean id="initPojoConfigResolver"
+		class="pl.bristleback.server.bristle.conf.resolver.init.PojoConfigResolver">
+		<property name="userContextClass" value="com.mtea.chatea.model.ChatUser" />
+		<property name="engineName" value="system.engine.tomcat.servlet" />
 	</bean>
 
-	<bb:servlet configurationResolver="bristlebackConfigResolver" />
-</beans>
+	<bb:servlet configurationResolver="initPojoConfigResolver" />
+</beans> 

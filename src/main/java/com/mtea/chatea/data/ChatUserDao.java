@@ -1,4 +1,4 @@
-package com.mtea.chatlet.data;
+package com.mtea.chatea.data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,8 +7,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import com.mtea.chatlet.exception.ChatUserExistsException;
-import com.mtea.chatlet.model.ChatUser;
+import com.mtea.chatea.exception.ChatUserExistsException;
+import com.mtea.chatea.model.ChatUser;
 
 @Component
 public class ChatUserDao {

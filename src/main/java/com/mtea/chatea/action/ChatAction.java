@@ -1,4 +1,4 @@
-package com.mtea.chatlet.action;
+package com.mtea.chatea.action;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ import pl.bristleback.server.bristle.api.action.DefaultAction;
 import pl.bristleback.server.bristle.api.annotations.Action;
 import pl.bristleback.server.bristle.api.annotations.ActionClass;
 
-import com.mtea.chatlet.action.client.ChatClientAction;
-import com.mtea.chatlet.data.ChatUserDao;
-import com.mtea.chatlet.model.ChatUser;
+import com.mtea.chatea.action.client.ChatClientAction;
+import com.mtea.chatea.data.ChatUserDao;
+import com.mtea.chatea.model.ChatUser;
 
 @Controller
 @ActionClass(name = "ChatAction")

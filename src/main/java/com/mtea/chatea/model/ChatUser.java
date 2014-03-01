@@ -1,4 +1,4 @@
-package com.mtea.chatlet.model;
+package com.mtea.chatea.model;
 
 import pl.bristleback.server.bristle.engine.user.BaseUserContext;
 

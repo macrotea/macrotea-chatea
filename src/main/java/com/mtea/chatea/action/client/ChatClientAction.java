@@ -1,4 +1,4 @@
-package com.mtea.chatlet.action.client;
+package com.mtea.chatea.action.client;
 
 import java.util.List;
 
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 import pl.bristleback.server.bristle.api.annotations.ClientAction;
 import pl.bristleback.server.bristle.api.annotations.ClientActionClass;
 
-import com.mtea.chatlet.data.ChatUserDao;
-import com.mtea.chatlet.model.ChatUser;
+import com.mtea.chatea.data.ChatUserDao;
+import com.mtea.chatea.model.ChatUser;
 
 @Component
 @ClientActionClass(name = "ChatClientAction")
