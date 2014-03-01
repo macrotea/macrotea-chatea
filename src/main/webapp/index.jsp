@@ -172,6 +172,7 @@
 <script src="js/bootstrap-collapse.js"></script>
 <script src="js/bootstrap-carousel.js"></script>
 <script src="js/bootstrap-typeahead.js"></script>
+<script src="js/nano.js"></script>
 <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="js/bristleback-0.3.5.js"></script>
 <script src="js/chatlet.js"></script>

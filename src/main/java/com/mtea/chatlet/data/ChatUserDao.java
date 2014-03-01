@@ -25,13 +25,16 @@ public class ChatUserDao {
 			ChatUserExistsException.newOne(nickname).throwMe();
 		}
 		
-		ChatUser u = new ChatUser(nickname);
-		userCache.put(nickname, u);
-		return u;
+		userCache.put(nickname, user);
+		return user;
 	}
 	
 	public List<ChatUser> getAll() {
 		return new ArrayList<ChatUser>(userCache.values());
+	}
+
+	public void removeAll() {
+		userCache.clear();
 	}
 
 }

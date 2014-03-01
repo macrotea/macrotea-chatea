@@ -11,6 +11,10 @@ import pl.bristleback.server.bristle.engine.user.BaseUserContext;
 public class ChatUser extends BaseUserContext {
 
 	private String nickname;
+	
+	public ChatUser() {
+		super();
+	}
 
 	public ChatUser(String nickname) {
 		super();
@@ -28,4 +32,11 @@ public class ChatUser extends BaseUserContext {
 	public boolean isLogged() {
 		return nickname != null;
 	}
+
+	@Override
+	public String toString() {
+		return "ChatUser [nickname=" + nickname + ", getNickname()=" + getNickname() + ", isLogged()=" + isLogged() + ", getId()=" + getId() + "]";
+	}
+	
+	
 }

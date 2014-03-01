@@ -44,10 +44,34 @@
         .setExceptionHandler("ChatUserExistsException", chatUserExistsExceptionHandler);
 
     function joinUserHandler(userList) {
+    	var $userList = clearAndPrepareUesrList(userList.length);
     	for (var u in userList) {
     		var eachUser = userList[u];
-    		alert("id: " + eachUser.id + ",name: " + eachUser.nickname);
+    		var eachLiHtml = $userList.append(nano(Template.userListEachLi,eachUser));
+    		$userList.append(eachLiHtml);
     	}
+    }
+    
+	function clearAndPrepareUesrList(userListLen){
+		var $userList = $("#userList");
+		$userList.empty();
+		
+		var userStat = {};
+		userStat.total = userListLen;
+		
+		var userListHeaderLiHtml = nano(Template.userListHeaderLi,userStat);
+		var userListSiteMonitorLiHTML = Template.userListSiteMonitorLi;
+		
+		$userList.append(userListHeaderLiHtml);
+		$userList.append(userListSiteMonitorLiHTML);
+		
+		return $userList;
+	}
+    
+    var Template = {
+		userListHeaderLi : "<li class='nav-header'>在线用户（{total}）</li>",
+		userListSiteMonitorLi : "<li><a href='#'>小站客服</a></li>",
+		userListEachLi : "<li><a href='#'>{nickname}</a></li>"
     }
 
     //-- public
@@ -63,7 +87,7 @@
     //-- binding
 
     $("#joinBtn").click(function(){
-        chatAction.join("macrotea");
+        chatAction.joinUser(Bristleback.USER_CONTEXT,"macrotea");
     });
 
     $(window).load(function () {

@@ -4,6 +4,8 @@
 	<classpath>
 		<dir name="E:/_Develop/Java/sources/_macrotea/bristleback/macrotea-bristleback-demo-from-archetype/target/classes">
 		</dir>
+		<dir name="E:/_Develop/Java/sources/_macrotea/bristleback/macrotea-bristleback-demo-from-archetype/target/test-classes">
+		</dir>
 	</classpath>
 
 	<web>

@@ -2,6 +2,8 @@ package com.mtea.chatlet.action.client;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +16,8 @@ import com.mtea.chatlet.model.ChatUser;
 @Component
 @ClientActionClass(name = "ChatClientAction")
 public class ChatClientAction {
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired private ChatUserDao chatUserDao;
 
@@ -22,7 +26,8 @@ public class ChatClientAction {
 	}
 
 	@ClientAction
-	public void userJoined(String nickname, List<ChatUser> userList) {
-		System.out.println("userJoined");
+	public List<ChatUser> userJoined(String nickname, List<ChatUser> userList) {
+		logger.debug("userJoined : [ nickname = {} , userList = {} ]", nickname, userList);
+		return userList;
 	}
 }
