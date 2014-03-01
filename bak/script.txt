@@ -1,0 +1,69 @@
+    var config = {
+      serverUrl: '<%=wsPath%>/websocket',
+      onOpen: function(event) {
+        document.getElementById('status').innerHTML = "The WebSocket Connection Is Open.";
+      },
+      onClose: function(event) {
+        document.getElementById('status').innerHTML = "The WebSocket Connection Is Closed.";
+      }
+    };
+    var client = Bristleback.newClient(config);
+    var dataController = client.dataController;
+
+    var sampleClientAction = {
+      sayHello: function(helloText) {
+        alert(helloText);
+      }
+    };
+
+    function connect() {
+      client.connect();
+    }
+
+    function closeConnection() {
+      client.disconnect();
+    }
+
+    /* ---------- CLIENT ACTIONS ---------- */
+
+    dataController.registerClientActionClass("SampleClientAction", sampleClientAction);
+
+    /* ---------- SERVER ACTIONS ---------- */
+
+    var helloWorld = dataController.getActionClass("HelloWorld");
+
+    helloWorld.defineDefaultAction()
+      .setResponseHandler(reverseCallback)
+      .exceptionHandler.setExceptionHandler("SerializationException", emptyInputCallback);
+
+    helloWorld.defineAction("duplicateText")
+      .setResponseHandler(duplicateCallback)
+      .exceptionHandler.setExceptionHandler("SerializationException", emptyInputCallback);
+
+    helloWorld.defineAction("sayHelloToAll");
+
+    function reverse() {
+      var text = document.getElementById("textInput").value;
+      helloWorld.executeDefault(Bristleback.USER_CONTEXT, text);
+    }
+
+    function reverseCallback(reversedValue) {
+      document.getElementById('status').innerHTML = "Reversed value: " + reversedValue;
+    }
+
+    function duplicate() {
+      var text = document.getElementById("textInput").value;
+      helloWorld.duplicateText(text);
+    }
+
+    function sayHelloToAll() {
+      helloWorld.sayHelloToAll();
+    }
+
+    function duplicateCallback(duplicatedValue) {
+      document.getElementById('status').innerHTML = "Duplicated value: " + duplicatedValue;
+    }
+
+    function emptyInputCallback() {
+      document.getElementById('status').innerHTML = "This is an exception callback for SerializationException!";
+    }

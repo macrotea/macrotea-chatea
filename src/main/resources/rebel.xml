@@ -2,19 +2,19 @@
 <application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.zeroturnaround.com" xsi:schemaLocation="http://www.zeroturnaround.com http://www.zeroturnaround.com/alderaan/rebel-2_0.xsd">
 
 	<classpath>
-		<dir name="E:/_Develop/Java/sources/_macrotea/bristleback/macrotea-bristleback-demo-from-archetype/target/classes">
+		<dir name="E:/_Develop/_Project/Chatlet/project/chatlet/target/classes">
 		</dir>
-		<dir name="E:/_Develop/Java/sources/_macrotea/bristleback/macrotea-bristleback-demo-from-archetype/target/test-classes">
+		<dir name="E:/_Develop/_Project/Chatlet/project/chatlet/target/test-classes">
 		</dir>
 	</classpath>
 
 	<web>
 		<link target="/">
-			<dir name="E:/_Develop/Java/sources/_macrotea/bristleback/macrotea-bristleback-demo-from-archetype/target/m2e-wtp/web-resources">
+			<dir name="E:/_Develop/_Project/Chatlet/project/chatlet/target/m2e-wtp/web-resources">
 			</dir>
 		</link>
 		<link target="/">
-			<dir name="E:/_Develop/Java/sources/_macrotea/bristleback/macrotea-bristleback-demo-from-archetype/src/main/webapp">
+			<dir name="E:/_Develop/_Project/Chatlet/project/chatlet/src/main/webapp">
 			</dir>
 		</link>
 	</web>

@@ -1,1 +1,34 @@
-1.上下文改成/
+#Bristleback supports Apache Tomcat 7.0.32+.#
+
+1.clean install jetty:run
+
+2.若使用eclipse内置的tomcat server的话，则需要maven排除：
+		<dependency>
+			<groupId>pl.bristleback</groupId>
+			<artifactId>websocket-engine-tomcat</artifactId>
+			<version>0.3.5</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>tomcat-coyote</artifactId>
+					<groupId>org.apache.tomcat</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+注意修改：
+<!-- system.engine.jetty.servlet -->
+<property name="engineName" value="system.engine.tomcat.servlet"/>
+		
+3.如下配置可为嵌入式服务器
+		<dependency>
+			<groupId>pl.bristleback</groupId>
+			<artifactId>websocket-engine-tomcat</artifactId>
+			<version>0.3.5</version>
+		</dependency>
+		
+4.独立服务器
+  <bb:standaloneServer configurationResolver="pojoConfigResolver"/>
+
+5.
+		
+

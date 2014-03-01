@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import pl.bristleback.server.bristle.api.action.DefaultAction;
 import pl.bristleback.server.bristle.api.annotations.Action;
 import pl.bristleback.server.bristle.api.annotations.ActionClass;
 
@@ -17,7 +16,7 @@ import com.mtea.chatlet.model.ChatUser;
 
 @Controller
 @ActionClass(name = "ChatAction")
-public class ChatAction implements DefaultAction<ChatUser, String> {
+public class ChatAction{// implements DefaultAction<ChatUser, String> 
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -27,13 +26,13 @@ public class ChatAction implements DefaultAction<ChatUser, String> {
 	@Autowired
 	private ChatClientAction chatClientAction;
 
-	@Action
-	@Override
-	public Object executeDefault(ChatUser userContext, String payload) throws Exception {
-		logger.debug("executeDefault : [ userContext = {} , payload = {} ]", userContext, payload);
-
-		return null;
-	}
+//	@Action
+//	@Override
+//	public Object executeDefault(ChatUser userContext, String payload) throws Exception {
+//		logger.debug("executeDefault : [ userContext = {} , payload = {} ]", userContext, payload);
+//
+//		return null;
+//	}
 
 	@Action
 	public List<ChatUser> joinUser(ChatUser user, String nickname) {
