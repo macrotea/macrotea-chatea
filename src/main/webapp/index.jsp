@@ -3,6 +3,9 @@
 <%
   String ctxPath = request.getContextPath();
   String wsPath = "ws://" + request.getServerName() + ":" + request.getServerPort() + ctxPath;
+
+  Calendar cal = Calendar.getInstance();
+  int year = cal.get(Calendar.YEAR);
 %>
 
 <!DOCTYPE html>
@@ -18,8 +21,6 @@
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
-<!--     <link href="css/jquery.mCustomScrollbar.css" rel="stylesheet">
- -->    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <![endif]-->
@@ -43,11 +44,11 @@
 
             <div class="nav-collapse collapse">
                 <p class="navbar-text pull-right">
-                    当前登录： <a href="#" class="navbar-link">张三</a>
+                    当前登录： <a href="#" class="navbar-link"><span class="nicknameHolder">未知用户</span></a>
                 </p>
                 <ul class="nav">
-                    <li class="active"><a href="#">首页</a></li>
-                    <li><a href="#">关于</a></li>
+                    <li class="active"><a href="<%=ctxPath%>">登陆</a></li>
+                    <li><a href="#aboutModal" data-toggle="modal">关于</a></li>
                 </ul>
             </div>
             <!--/.nav-collapse -->
@@ -56,6 +57,13 @@
 </div>
 
 <div class="container-fluid">
+    <% boolean isIE = request.getHeader("user-agent").indexOf("MSIE") > -1;if(isIE) { %>
+    <div class="row-fluid" id="ieValidateBox">
+        <div class="span4 offset4 well">
+            <h3 style="color:#bd362f">由于现行IE浏览器不支持Websocket<br/>请使用Firefox或者Chrome浏览器登陆！</h3>
+        </div>
+    </div>
+    <% } %>
 
     <div class="row-fluid" id="loginBox">
         <div class="span4 offset4 well">
@@ -81,14 +89,14 @@
         <!--/span-->
         <div class="span9">
             <ul class="breadcrumb">
-                <li><span class="nicknameHolder">张三</span>，欢迎你来到茶余饭后~</li>
+                <li><span class="nicknameHolder">未知用户</span>，欢迎您来到茶余饭后~</li>
             </ul>
             <div class="well" id="content">
                 <p>
-                    <span class="badge badge-important">小站客服 / 23:23:09</span>
+                    <span class="badge badge-important">小站客服&nbsp;&nbsp;&nbsp;23:23:09</span>
                 </p>
                 <div class="alert alert-error">
-                    <span class="nicknameHolder">张三</span>，您好，您可以通过左侧的用户列表查看当前在线用户！同时点击页面顶部的 “关于” 了解更多信息！
+                    <span class="nicknameHolder">未知用户</span>，您好，您可以通过左侧的用户列表查看当前在线用户！同时点击页面顶部的 “关于” 了解更多信息！
                 </div>
 
             </div>
@@ -97,7 +105,6 @@
                     <input id="msgTxtInput" type="text" class="input-xxlarge" placeholder="内容">
                     <button id="sendBtn" type="submit" class="btn btn-primary">发送</button>
                     <button id="cleanBtn" type="button" class="btn">清空</button>
-                    <button id="joinBtn" type="button" class="btn">加入用户</button>
                 </form>
                 <div id="tip"></div>
             </div>
@@ -108,8 +115,23 @@
 
     <hr>
     <footer>
-        <p>© macrotea.cn 2014</p>
+        <p>© <a href="http://115.28.220.238/" target="_blank">macrotea.cn</a> <%=year%></p>
     </footer>
+
+    <div id="aboutModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">关于茶余饭后</h3>
+        </div>
+        <div class="modal-body">
+            <p>茶余饭后是一个以交流心情、娱乐、休闲的在线小玩意~</p>
+            <p>技术组合：Spring + <a href="http://bristleback.pl" target="_blank">bristleback</a> (基于Websocket的Java框架)</p>
+            <p>联系QQ：<a href="http://sighttp.qq.com/authd?IDKEY=f87ba8e8fc35c8ccf9eb9062db31c99207166221f58afaaf" target="_blank">395423086</a> </p>
+            </div>
+            <div class="modal-footer">
+            <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">关闭</button>
+        </div>
+    </div>
 </div>
 <!--/.fluid-container-->
 
@@ -129,8 +151,7 @@
 <script src="js/nano.js"></script>
 <script src="js/underscore-min.js"></script>
 <script src="js/moment.min.js"></script>
-<!-- <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
- --><script src="js/bristleback-0.3.5.js"></script>
+<script src="js/bristleback-0.3.5.js"></script>
 <script src="js/chatea-core.js"></script>
 
 </body>

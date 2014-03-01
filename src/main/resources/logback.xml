@@ -4,9 +4,9 @@
 
 	<include resource="logback.inc.xml" />
 	
-	<logger name="com.mtea" level="DEBUG"/>
+	<logger name="com.mtea" level="INFO"/>
 	
-	<root level="DEBUG">
+	<root level="WARN">
    		<appender-ref ref="ConsoleOutputAppender" />
 		<appender-ref ref="ProjectLogFileAppender" />
 	</root>

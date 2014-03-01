@@ -18,17 +18,17 @@ public class ChatUserDao {
 	public ChatUser add(String nickname) {
 		return add2(new ChatUser(nickname));
 	}
-	
+
 	public ChatUser add2(ChatUser user) {
 		String nickname = user.getNickname();
-		if(userCache.get(nickname)!=null){
+		if (userCache.get(nickname) != null) {
 			ChatUserExistsException.newOne(nickname).throwMe();
 		}
-		
+
 		userCache.put(nickname, user);
 		return user;
 	}
-	
+
 	public List<ChatUser> getAll() {
 		return new ArrayList<ChatUser>(userCache.values());
 	}

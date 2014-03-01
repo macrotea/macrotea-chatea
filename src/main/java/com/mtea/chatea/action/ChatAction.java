@@ -12,11 +12,12 @@ import pl.bristleback.server.bristle.api.annotations.ActionClass;
 
 import com.mtea.chatea.action.client.ChatClientAction;
 import com.mtea.chatea.data.ChatUserDao;
+import com.mtea.chatea.model.ChatCounter;
 import com.mtea.chatea.model.ChatUser;
 
 @Controller
 @ActionClass(name = "ChatAction")
-public class ChatAction{
+public class ChatAction {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -35,9 +36,11 @@ public class ChatAction{
 
 		List<ChatUser> userList = chatUserDao.getAll();
 
-		// 通知
 		chatClientAction.userJoined(nickname, userList);
+		
+		ChatCounter.increaseLoginTotal();
 
 		return user;
 	}
+	
 }

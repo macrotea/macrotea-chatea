@@ -11,7 +11,6 @@
             siteMonitor : "小站客服",
             error : "数据通信异常",
             loginBan: false
-
         },
 
         WHO= "",
@@ -19,6 +18,12 @@
         Util = {
             getNowTime: function () {
                 return moment().format(Constant.timeFormat);
+            },
+            isOnlyYou: function (userList) {
+                if(!userList){
+                    return true;
+                }
+                return userList.length==1?true:false;
             }
         };
 
@@ -33,7 +38,8 @@
         userListHeaderLi: "<li class='nav-header'>在线用户（{total}）</li>",
         userListSiteMonitorLi: "<li><a href='#'>" + Constant.siteMonitor + "</a></li>",
         userListEachLi: "<li><a href='#'>{nickname}</a></li>",
-        msgTpl: "<p><span class='badge badge-{badgeClazz}'>{name}  {time}</span><div class='alert alert-{alertClazz}'>{msg}</div></p>",
+        msgTpl: "<p><span class='badge badge-{badgeClazz}'>{name}&nbsp;&nbsp;&nbsp;{time}</span><div class='alert alert-{alertClazz}'>{msg}</div></p>",
+        statTpl: "每十秒服务器推送：截止登陆用户总数 - {loginTotal} ，截止消息发送总数 - {msgTotal}",
         siteMonitorSays: function (data) {
             return nano(this.msgTpl, {
                 badgeClazz: "important",
@@ -44,20 +50,32 @@
             });
         },
         userSays: function (name, data) {
+            var colorLevel = "info";
+            if(name == WHO){
+                colorLevel = "success";
+            }
+
             return nano(this.msgTpl, {
-                badgeClazz: "success",
-                alertClazz: "success",
+                badgeClazz: colorLevel,
+                alertClazz: colorLevel,
                 name: name,
                 time: Util.getNowTime(),
                 msg: data
             });
         },
         whoJoin: function (username) {
-            return "【" + username + "】 悄悄加入聊天~";
+            return "【" + username + "】 悄悄地加入聊天~";
         },
         whoLeave: function (username) {
-            return "【" + username + "】 悄悄溜走了~";
+            return "【" + username + "】 悄悄地溜走了~";
+        },
+        whenOnlyYou: function () {
+            return "当前聊天室只有您一个在线用户，您可以新开一个标签页自娱自乐~ (-_-)";
+        },
+        whenShowStat: function (chatStat) {
+            return nano(this.statTpl, chatStat);
         }
+
     };
 
     var View = {
@@ -156,7 +174,7 @@
                 e.preventDefault();
                 var msg = $msgTxtInput.val();
                 if (msg && msg.length > 0) {
-                    messageAction.executeDefault(Bristleback.CONNECTOR, {'nickname': WHO, 'msg': msg});
+                    messageAction.executeDefault(Bristleback.CONNECTOR, {'nickname': WHO,'msg':msg});
                     that.msgTxtInputClean();
                     $msgTxtInput.focus();
                 }
@@ -245,6 +263,12 @@
         userJoined: function (nickname, userList) {
             View.userListRefresh(userList);
             View.contentAppend(Message.siteMonitorSays(Message.whoJoin(nickname)));
+
+            if(Util.isOnlyYou(userList)){
+                View.contentAppend(Message.siteMonitorSays(Message.whenOnlyYou()));
+            }
+
+            View.contentScrollToBottom();
         },
 
         /**
@@ -254,11 +278,9 @@
          */
         msgSent: function (chatUser,chatText) {
             if(!chatText) return;
-            var nickname = chatText.nickname;
-            var msg = Bristleback.utils.escapeHTML(chatText.msg);
-
-            alert(msg);
-            if (nickname && msg) {
+            var nickname = chatUser.nickname;
+            if (nickname) {
+                var msg = Bristleback.utils.escapeHTML(chatText.msg);
                 View.contentAppend(Message.userSays(nickname, msg));
                 View.contentScrollToBottom();
             }
@@ -272,6 +294,16 @@
         userLeave: function (nickname,userList) {
             View.userListRefresh(userList);
             View.contentAppend(Message.siteMonitorSays(Message.whoLeave(nickname)));
+            View.contentScrollToBottom();
+        },
+
+        /**
+         * 统计已推送
+         * @param chatStat
+         */
+        statPushed: function (chatStat) {
+            View.contentAppend(Message.siteMonitorSays(Message.whenShowStat(chatStat)));
+            View.contentScrollToBottom();
         }
     });
 
@@ -282,6 +314,7 @@
     var chatAction = Server.controller.getActionClass("ChatAction");
     var messageAction = Server.controller.getActionClass("MessageAction");
     messageAction.defineDefaultAction();
+
 
     //--用户加入
     chatAction
@@ -297,7 +330,10 @@
             View.showTipWhenLoginError(Constant.nicknameExists);
         });
 
-    //-- public
+
+    //------------------------------
+    // 公用
+    //------------------------------
 
     function exceptionHandler() {
         alert(Constant.error);

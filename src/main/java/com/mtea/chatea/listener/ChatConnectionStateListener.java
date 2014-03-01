@@ -13,7 +13,7 @@ import com.mtea.chatea.data.ChatUserDao;
 import com.mtea.chatea.model.ChatUser;
 
 @Component
-public class ChatConnectionStateListener implements ConnectionStateListener<ChatUser> {
+public class ChatConnectionStateListener implements ConnectionStateListener<ChatUser>{
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
@@ -24,13 +24,13 @@ public class ChatConnectionStateListener implements ConnectionStateListener<Chat
 
 	@Override
 	public void userConnected(ChatUser chatUser, ConnectionStateListenerChain connectionStateListenerChain) {
-		logger.debug("用户ID = {} 进行连接",chatUser.getId());
+		logger.info("用户ID = {} 进行连接",chatUser.getId());
 	}
 
 	@Override
 	public void userDisconnected(ChatUser chatUser, ConnectionStateListenerChain connectionStateListenerChain) {
 		if (chatUser.isLogged()) {
-			logger.debug("用户 = {} 失去连接",chatUser.getNickname());
+			logger.info("用户 = {} 失去连接",chatUser.getNickname());
 			chatUserDao.remove(chatUser.getNickname());
 			chatClientAction.userLeave(chatUser.getNickname(), chatUserDao.getAll());
 		}
