@@ -22,13 +22,14 @@
     //------------------------------
     // Client
     //------------------------------
+    
+    var chatClientAction = {
+    		userJoined: function (nickname,userList) {
+    			alert("userJoined - nickname: " + nickname);
+    		}
+    };
 
     dataController.registerClientActionClass("ChatClientAction", chatClientAction);
-    var chatClientAction = {
-		userJoined: function (nickname,userList) {
-			alert("nickname: " + nickname);
-		}
-    };
 
     //------------------------------
     // Server
