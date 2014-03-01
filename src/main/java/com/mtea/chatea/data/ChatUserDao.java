@@ -37,4 +37,8 @@ public class ChatUserDao {
 		userCache.clear();
 	}
 
+	public void remove(String nickname) {
+		userCache.remove(nickname);
+	}
+
 }

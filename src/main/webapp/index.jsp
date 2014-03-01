@@ -10,20 +10,20 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <title>Macrotea - 闲情小站</title>
+    <title>Macrotea - 茶余饭后 - 基于Websocket的聊天室</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="macrotea-chatlet">
     <meta name="author" content="macrotea">
-    
+
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
-    <link href="css/jquery.mCustomScrollbar.css" rel="stylesheet">
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--     <link href="css/jquery.mCustomScrollbar.css" rel="stylesheet">
+ -->    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <![endif]-->
-    
+
     <script type="text/javascript">
     	var chatWebsocketUrl = '<%=wsPath%>/chat.ws';
     </script>
@@ -39,7 +39,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="brand" href="#"><strong>闲情小站</strong></a>
+            <a class="brand" href="#"><strong>茶余饭后</strong></a>
 
             <div class="nav-collapse collapse">
                 <p class="navbar-text pull-right">
@@ -56,27 +56,24 @@
 </div>
 
 <div class="container-fluid">
-    <!--
-    <div class="row-fluid">
+
+    <div class="row-fluid" id="loginBox">
         <div class="span4 offset4 well">
-            <legend>欢迎登录闲情小站</legend>
-            <form class="form-inline">
-                <input class="input-large" type="text" id="username" name="username" placeholder="昵称" AUTOCOMPLETE="off"/>
-                <button type="submit" name="submit" class="btn btn-primary">登录</button>
+            <legend>欢迎登录茶余饭后</legend>
+            <div class="alert alert-error" id="loginTipBox" style="display:none">
+                <a class="close" data-dismiss="alert" href="#">×</a><span id="loginTip">登录失败</span>
+            </div>
+            <form method="POST" action="" accept-charset="UTF-8">
+                <input type="text" id="nicknameTxtInput" class="input-block-level" placeholder="您的昵称" AUTOCOMPLETE="off"/>
+                <button id="loginBtn" type="submit" name="submit" class="btn btn-info btn-block">登 录</button>
             </form>
         </div>
     </div>
-    -->
-    <div class="row-fluid">
+
+    <div class="row-fluid" id="mainBox" style="display:none">
         <div class="span3">
             <div class="well sidebar-nav">
                 <ul class="nav nav-list" id="userList">
-                    <li class="nav-header">在线用户（4）</li>
-                    <li><a href="#">小站客服</a></li>
-                    <li><a href="#">张三</a></li>
-                    <li><a href="#">李四</a></li>
-                    <li><a href="#">王五</a></li>
-                    <li><a href="#">大哥</a></li>
                 </ul>
             </div>
             <!--/.well -->
@@ -84,65 +81,22 @@
         <!--/span-->
         <div class="span9">
             <ul class="breadcrumb">
-                <li>张三，欢迎你来到闲情小站~</li>
+                <li><span class="nicknameHolder">张三</span>，欢迎你来到茶余饭后~</li>
             </ul>
             <div class="well" id="content">
-
                 <p>
                     <span class="badge badge-important">小站客服 / 23:23:09</span>
-                    <div class="alert alert-error">
-                        最近更新了不少东西喔
-                    </div>
                 </p>
-                <p>
-                    <span class="badge badge-success">小站客服 / 23:23:09</span>
-                    <div class="alert alert-success">
-                        最近更新了不少东西喔
-                    </div>
-                </p>
-                <p>
-                    <span class="badge badge-info">小站客服 / 23:23:09</span>
-                    <div class="alert alert-info">
-                        最近更新了不少东西喔
-                    </div>
-                </p>
-                <p>
-                    <span class="badge badge-warning">小站客服 / 23:23:09</span>
-                    <div class="alert alert-warning">
-                        最近更新了不少东西喔
-                    </div>
-                </p>
-                <p>
-                    <span class="badge badge-important">小站客服 / 23:23:09</span>
-                    <div class="alert alert-error">
-                        最近更新了不少东西喔
-                    </div>
-                </p>
-                <p>
-                    <span class="badge badge-success">小站客服 / 23:23:09</span>
-                    <div class="alert alert-success">
-                        最近更新了不少东西喔
-                    </div>
-                </p>
-                <p>
-                    <span class="badge badge-info">小站客服 / 23:23:09</span>
-                    <div class="alert alert-info">
-                        最近更新了不少东西喔
-                    </div>
-                </p>
-                <p>
-                    <span class="badge badge-warning">小站客服 / 23:23:09</span>
-                    <div class="alert alert-warning">
-                        最近更新了不少东西喔
-                    </div>
-                </p>
+                <div class="alert alert-error">
+                    <span class="nicknameHolder">张三</span>，您好，您可以通过左侧的用户列表查看当前在线用户！同时点击页面顶部的 “关于” 了解更多信息！
+                </div>
 
             </div>
             <div class="well">
                 <form class="form-inline">
-                    <input type="text" class="input-xxlarge" placeholder="内容">
-                    <button id="send" type="submit" class="btn btn-primary">发送</button>
-                    <button id="clear" type="submit" class="btn">清空</button>
+                    <input id="msgTxtInput" type="text" class="input-xxlarge" placeholder="内容">
+                    <button id="sendBtn" type="submit" class="btn btn-primary">发送</button>
+                    <button id="cleanBtn" type="button" class="btn">清空</button>
                     <button id="joinBtn" type="button" class="btn">加入用户</button>
                 </form>
                 <div id="tip"></div>
@@ -173,8 +127,10 @@
 <script src="js/bootstrap-carousel.js"></script>
 <script src="js/bootstrap-typeahead.js"></script>
 <script src="js/nano.js"></script>
-<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="js/bristleback-0.3.5.js"></script>
+<script src="js/underscore-min.js"></script>
+<script src="js/moment.min.js"></script>
+<!-- <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+ --><script src="js/bristleback-0.3.5.js"></script>
 <script src="js/chatea-core.js"></script>
 
 </body>

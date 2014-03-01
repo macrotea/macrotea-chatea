@@ -11,6 +11,7 @@ import pl.bristleback.server.bristle.api.annotations.ClientAction;
 import pl.bristleback.server.bristle.api.annotations.ClientActionClass;
 
 import com.mtea.chatea.data.ChatUserDao;
+import com.mtea.chatea.model.ChatText;
 import com.mtea.chatea.model.ChatUser;
 
 @Component
@@ -28,6 +29,17 @@ public class ChatClientAction {
 	@ClientAction
 	public List<ChatUser> userJoined(String nickname, List<ChatUser> userList) {
 		logger.debug("userJoined : [ nickname = {} , userList = {} ]", nickname, userList);
+		return userList;
+	}
+
+	@ClientAction
+	public ChatUser msgSent(ChatUser chatUser, ChatText chatText) {
+		logger.debug("msgSent");
+		return chatUser;
+	}
+
+	@ClientAction
+	public List<ChatUser> userLeave(String nickname, List<ChatUser> userList) {
 		return userList;
 	}
 }
