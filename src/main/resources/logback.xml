@@ -7,7 +7,6 @@
 	<logger name="com.mtea" level="INFO"/>
 	
 	<root level="WARN">
-   		<appender-ref ref="ConsoleOutputAppender" />
 		<appender-ref ref="ProjectLogFileAppender" />
 	</root>
 	

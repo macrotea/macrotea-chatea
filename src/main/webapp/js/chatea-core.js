@@ -34,12 +34,16 @@
     var $nicknameTxtInput = $("#nicknameTxtInput");
     var $loginBtn = $("#loginBtn");
 
+    //------------------------------
+    // Message
+    //------------------------------
+
     var Message = {
         userListHeaderLi: "<li class='nav-header'>在线用户（{total}）</li>",
         userListSiteMonitorLi: "<li><a href='#'>" + Constant.siteMonitor + "</a></li>",
         userListEachLi: "<li><a href='#'>{nickname}</a></li>",
         msgTpl: "<p><span class='badge badge-{badgeClazz}'>{name}&nbsp;&nbsp;&nbsp;{time}</span><div class='alert alert-{alertClazz}'>{msg}</div></p>",
-        statTpl: "每十秒服务器推送：截止登陆用户总数 - {loginTotal} ，截止消息发送总数 - {msgTotal}",
+        statTpl: "每一分钟服务器推送：截止登陆用户总数 - {loginTotal} ，截止消息发送总数 - {msgTotal}",
         siteMonitorSays: function (data) {
             return nano(this.msgTpl, {
                 badgeClazz: "important",
@@ -77,6 +81,10 @@
         }
 
     };
+
+    //------------------------------
+    // View
+    //------------------------------
 
     var View = {
 
@@ -206,10 +214,13 @@
 
             $("#nicknameTxtInput").focus();
         }
-
     }
 
     View.initBindings();
+
+    //------------------------------
+    // Websocket
+    //------------------------------
 
     var Server = {
 
@@ -250,7 +261,7 @@
     Server.init();
 
     //------------------------------
-    // Client
+    // Client Action
     //------------------------------
 
     Server.controller.registerClientActionClass("ChatClientAction", {
@@ -308,7 +319,7 @@
     });
 
     //------------------------------
-    // Server
+    // Server Action
     //------------------------------
 
     var chatAction = Server.controller.getActionClass("ChatAction");

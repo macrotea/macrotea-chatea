@@ -30,7 +30,7 @@ public class ScheduleService implements ApplicationListener<ContextRefreshedEven
 				while (true) {
 					
 					try {
-						Thread.sleep(TimeUnit.SECONDS.toMillis(10));
+						Thread.sleep(TimeUnit.SECONDS.toMillis(60));
 					} catch (InterruptedException ignore) {
 					}
 					chatClientAction.statPushed(new ChatStat(ChatCounter.loginTotalCounter, ChatCounter.msgTotalCounter));

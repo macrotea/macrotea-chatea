@@ -17,6 +17,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="macrotea-chatlet">
     <meta name="author" content="macrotea">
+    
+    <link rel="shortcut icon" href="<%=ctxPath %>/fav.ico" type="image/x-icon">
+	<link rel="icon" href="<%=ctxPath %>/fav.ico" type="image/x-icon">
 
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet">
